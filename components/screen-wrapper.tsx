@@ -1,4 +1,4 @@
-import { colors } from "@/constants/theme";
+import { colors, spacingX, spacingY } from "@/constants/theme";
 import { ScreenWrapperProps } from "@/types/types";
 import React from "react";
 import { ImageBackground, StatusBar, StyleSheet } from "react-native";
@@ -20,14 +20,7 @@ export default function ScreenWrapper({
       }}
       imageStyle={{ opacity: showPattern ? bgOpacity : 0 }}
     >
-      <SafeAreaView
-        style={[
-          {
-            flex: 1,
-          },
-          style,
-        ]}
-      >
+      <SafeAreaView style={[styles.container, style]}>
         <StatusBar barStyle={"light-content"} backgroundColor={"transparent"} />
         {children}
       </SafeAreaView>
@@ -35,4 +28,8 @@ export default function ScreenWrapper({
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

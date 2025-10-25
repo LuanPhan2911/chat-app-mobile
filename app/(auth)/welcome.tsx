@@ -3,11 +3,14 @@ import ScreenWrapper from "@/components/screen-wrapper";
 import Typo from "@/components/typo";
 import { colors, spacingX, spacingY } from "@/constants/theme";
 import { verticalScale } from "@/utils/styling";
+import { useRouter } from "expo-router";
+
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 
 export default function Welcome() {
+  const router = useRouter();
   return (
     <ScreenWrapper showPattern>
       <View style={styles.container}>
@@ -32,7 +35,10 @@ export default function Welcome() {
           and family
         </Typo>
 
-        <Button style={{ backgroundColor: colors.white }}>
+        <Button
+          style={{ backgroundColor: colors.white }}
+          onPress={() => router.push("/(auth)/register")}
+        >
           <Typo size={23} fontWeight="600">
             Get started
           </Typo>
@@ -46,8 +52,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-around",
-    paddingHorizontal: spacingX._20,
-    paddingVertical: spacingY._20,
+    padding: 20,
   },
   welcomeImage: {
     height: verticalScale(300),
