@@ -85,7 +85,7 @@ const Register = () => {
               <View style={styles.footer}>
                 <Typo>Already have account?</Typo>
                 <Pressable onPress={() => router.push("/(auth)/login")}>
-                  <Typo color={colors.primaryDark}>Login</Typo>
+                  <Typo color={colors.primaryDark}>Signin</Typo>
                 </Pressable>
               </View>
             </ScrollView>
