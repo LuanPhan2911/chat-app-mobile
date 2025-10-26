@@ -2,6 +2,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { InputProps } from "@/types/types";
 import { colors, radius, spacingX, spacingY } from "@/constants/theme";
+import { verticalScale } from "@/utils/styling";
 
 export default function Input(props: InputProps) {
   const [isFocus, setFocus] = useState(false);
@@ -27,6 +28,7 @@ export default function Input(props: InputProps) {
 
 const styles = StyleSheet.create({
   input: {
+    height: verticalScale(48),
     backgroundColor: colors.neutral200,
     marginVertical: spacingY._10,
     borderRadius: radius._20,

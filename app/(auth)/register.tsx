@@ -1,19 +1,36 @@
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import ScreenWrapper from "@/components/screen-wrapper";
 import BackButton from "@/components/back-button";
 import Typo from "@/components/typo";
-import { colors, radius } from "@/constants/theme";
-import { Type, User } from "lucide-react-native";
+import { colors, radius, spacingX, spacingY } from "@/constants/theme";
+import { AtSign, Lock, Type, User } from "lucide-react-native";
 import Input from "@/components/input";
+import Button from "@/components/button";
+import LineSeparator from "@/components/line-seperator";
+import { useRouter } from "expo-router";
 
 const Register = () => {
+  const router = useRouter();
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const handleSubmit = async () => {
+    if (!username || !email || !password) {
+      Alert.alert("Signup", "Please fill on fields");
+      return;
+    }
+  };
   return (
     <KeyboardAvoidingView
       style={{
@@ -35,14 +52,43 @@ const Register = () => {
             </Typo>
           </View>
           <View style={styles.content}>
-            <Typo size={32} fontWeight={"bold"}>
-              Get started
-            </Typo>
-            <Typo size={16} color={colors.neutral600}>
-              Create your account to continue
-            </Typo>
+            <ScrollView>
+              <Typo size={32} fontWeight={"bold"}>
+                Get started
+              </Typo>
+              <Typo size={16} color={colors.neutral600}>
+                Create your account to continue
+              </Typo>
 
-            <Input placeholder="Enter your username" icon={<User />} />
+              <View style={{ marginVertical: spacingY._10 }}>
+                <Input
+                  placeholder="Enter your username"
+                  icon={<User />}
+                  onChangeText={setUsername}
+                />
+                <Input
+                  placeholder="Enter your email"
+                  icon={<AtSign />}
+                  onChangeText={setEmail}
+                />
+                <Input
+                  placeholder="Enter your password"
+                  secureTextEntry
+                  icon={<Lock />}
+                  onChangeText={setPassword}
+                />
+              </View>
+              <Button onPress={handleSubmit}>
+                <Typo fontWeight={600}>Sign up</Typo>
+              </Button>
+              <LineSeparator />
+              <View style={styles.footer}>
+                <Typo>Already have account?</Typo>
+                <Pressable onPress={() => router.push("/(auth)/login")}>
+                  <Typo color={colors.primaryDark}>Login</Typo>
+                </Pressable>
+              </View>
+            </ScrollView>
           </View>
         </View>
       </ScreenWrapper>
@@ -68,5 +114,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: radius._30,
     borderTopRightRadius: radius._30,
     padding: 20,
+  },
+  footer: {
+    flexDirection: "row",
+    gap: spacingX._5,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
