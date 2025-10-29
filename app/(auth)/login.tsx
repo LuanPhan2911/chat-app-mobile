@@ -18,16 +18,27 @@ import Input from "@/components/input";
 import Button from "@/components/button";
 import LineSeparator from "@/components/line-seperator";
 import { useRouter } from "expo-router";
+import { useAuth } from "@/contexts/auth-context";
 
 const Login = () => {
   const router = useRouter();
-  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
+
+  const { signIn } = useAuth();
   const handleSubmit = async () => {
-    if (!username || !password) {
+    if (!email || !password) {
       Alert.alert("Signin", "Please fill on fields");
       return;
+    }
+    try {
+      setLoading(true);
+      await signIn(email, password);
+    } catch (error: any) {
+      Alert.alert(error.message);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -61,9 +72,9 @@ const Login = () => {
 
               <View style={{ marginVertical: spacingY._10 }}>
                 <Input
-                  placeholder="Enter your username"
+                  placeholder="Enter your email"
                   icon={<User />}
-                  onChangeText={setUsername}
+                  onChangeText={setEmail}
                 />
 
                 <Input
