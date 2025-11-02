@@ -1,6 +1,12 @@
-import { login, register } from "@/services/auth-service";
-import { AuthContextProps, UserProps } from "@/types/types";
-import { createContext, PropsWithChildren, useContext, useState } from "react";
+import { currentUser, login, register } from "@/services/auth-service";
+import { AuthContextProps, DecodedTokenProps, UserProps } from "@/types/types";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode"; // For ES Modules
 import { useRouter } from "expo-router";
@@ -17,6 +23,27 @@ export const AuthProvider = (props: PropsWithChildren) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProps | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    console.log(1);
+    loadToken();
+  }, []);
+  const loadToken = async () => {
+    try {
+      const user = await currentUser();
+
+      setTimeout(() => {
+        router.push("/(main)/home");
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+
+      setTimeout(() => {
+        router.push("/(auth)/welcome");
+      }, 1500);
+    }
+  };
+
   const signIn = async (email: string, password: string) => {
     const response = await login(email, password);
     await updateToken(response.token);
@@ -35,9 +62,8 @@ export const AuthProvider = (props: PropsWithChildren) => {
     if (token) {
       setToken(token);
       await AsyncStorage.setItem("token", token);
-      const decodedValue = jwtDecode<UserProps>(token);
-
-      setUser(decodedValue);
+      const decodedValue = jwtDecode<DecodedTokenProps>(token);
+      setUser(decodedValue.user);
     } else {
       setToken(null);
       setUser(null);

@@ -6,7 +6,7 @@ import { StyleSheet } from "react-native";
 const RootLayout = () => {
   return (
     <AuthProvider>
-      <Stack screenOptions={{ headerShown: false }} />;
+      <Stack screenOptions={{ headerShown: false }} />
     </AuthProvider>
   );
 };

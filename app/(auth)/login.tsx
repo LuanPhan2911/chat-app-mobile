@@ -53,9 +53,8 @@ const Login = () => {
           <View style={styles.header}>
             <BackButton />
             <Typo
-              size={16}
+              size={20}
               style={{ fontStyle: "italic" }}
-              fontWeight={600}
               color={colors.white}
             >
               Forgot password?
@@ -63,10 +62,10 @@ const Login = () => {
           </View>
           <View style={styles.content}>
             <ScrollView>
-              <Typo size={32} fontWeight={"bold"}>
+              <Typo size={36} fontWeight={"bold"}>
                 Welcome back
               </Typo>
-              <Typo size={16} color={colors.neutral600}>
+              <Typo size={20} color={colors.neutral600}>
                 We are happy to see you
               </Typo>
 
@@ -84,14 +83,18 @@ const Login = () => {
                   onChangeText={setPassword}
                 />
               </View>
-              <Button onPress={handleSubmit}>
-                <Typo fontWeight={600}>Sign in</Typo>
+              <Button onPress={handleSubmit} loading={isLoading}>
+                <Typo fontWeight={600} size={24}>
+                  Login
+                </Typo>
               </Button>
               <LineSeparator />
               <View style={styles.footer}>
-                <Typo>Don't have account?</Typo>
+                <Typo size={20}>Don't have account?</Typo>
                 <Pressable onPress={() => router.replace("/(auth)/register")}>
-                  <Typo color={colors.primaryDark}>Signup</Typo>
+                  <Typo size={20} color={colors.primaryDark}>
+                    Signup
+                  </Typo>
                 </Pressable>
               </View>
             </ScrollView>

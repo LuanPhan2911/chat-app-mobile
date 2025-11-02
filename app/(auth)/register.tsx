@@ -53,9 +53,8 @@ const Register = () => {
           <View style={styles.header}>
             <BackButton />
             <Typo
-              size={16}
+              size={20}
               style={{ fontStyle: "italic" }}
-              fontWeight={600}
               color={colors.white}
             >
               Need some help?
@@ -63,10 +62,10 @@ const Register = () => {
           </View>
           <View style={styles.content}>
             <ScrollView>
-              <Typo size={32} fontWeight={"bold"}>
+              <Typo size={36} fontWeight={"bold"}>
                 Get started
               </Typo>
-              <Typo size={16} color={colors.neutral600}>
+              <Typo size={20} color={colors.neutral600}>
                 Create your account to continue
               </Typo>
 
@@ -89,13 +88,17 @@ const Register = () => {
                 />
               </View>
               <Button onPress={handleSubmit}>
-                <Typo fontWeight={600}>Sign up</Typo>
+                <Typo size={24} fontWeight={600}>
+                  Signup
+                </Typo>
               </Button>
               <LineSeparator />
               <View style={styles.footer}>
-                <Typo>Already have account?</Typo>
+                <Typo size={20}>Already have account?</Typo>
                 <Pressable onPress={() => router.push("/(auth)/login")}>
-                  <Typo color={colors.primaryDark}>Signin</Typo>
+                  <Typo size={20} color={colors.primaryDark}>
+                    Signin
+                  </Typo>
                 </Pressable>
               </View>
             </ScrollView>

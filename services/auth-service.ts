@@ -12,7 +12,6 @@ export const login = async (
     const token = res.data.token as string;
     return { token };
   } catch (error: any) {
-    console.log(error);
     throw new Error(error?.response?.data?.message || "Unknown error");
   }
 };
@@ -29,6 +28,14 @@ export const register = async (
     });
     const token = res.data.token as string;
     return { token };
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message || "Unknown error");
+  }
+};
+
+export const currentUser = async () => {
+  try {
+    return await api.get("/auth/current-user");
   } catch (error: any) {
     throw new Error(error?.response?.data?.message || "Unknown error");
   }

@@ -29,7 +29,12 @@ export default function Welcome() {
           entering={FadeIn.duration(700).springify()}
           resizeMode={"contain"}
         />
-        <Typo size={32} color={colors.white} fontWeight={800}>
+        <Typo
+          size={36}
+          color={colors.white}
+          fontWeight={800}
+          style={{ textAlign: "center" }}
+        >
           Stay connected{"\n"}
           with your friends{"\n"}
           and family
@@ -37,9 +42,9 @@ export default function Welcome() {
 
         <Button
           style={{ backgroundColor: colors.white }}
-          onPress={() => router.push("/(auth)/register")}
+          onPress={() => router.push("/(auth)/login")}
         >
-          <Typo size={23} fontWeight="600">
+          <Typo size={24} fontWeight="600">
             Get started
           </Typo>
         </Button>

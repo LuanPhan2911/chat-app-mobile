@@ -28,7 +28,7 @@ export default function Input(props: InputProps) {
 
 const styles = StyleSheet.create({
   input: {
-    height: verticalScale(48),
+    height: verticalScale(56),
     backgroundColor: colors.neutral200,
     marginVertical: spacingY._10,
     borderRadius: radius._20,
