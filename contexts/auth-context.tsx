@@ -7,42 +7,46 @@ import {
   useEffect,
   useState,
 } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { jwtDecode } from "jwt-decode"; // For ES Modules
 import { useRouter } from "expo-router";
+import * as SecureStore from "expo-secure-store";
+
 const AuthContext = createContext<AuthContextProps>({
   token: null,
   user: null,
+  isLoading: true,
   signIn: async (email: string, password: string) => {},
   signOut: async () => {},
   signUp: async (email: string, password: string, name: string) => {},
   updateToken: async (token: string) => {},
 });
 
+const delay = (time: number) => {
+  return new Promise((resolve) => setTimeout(resolve, time));
+};
+
 export const AuthProvider = (props: PropsWithChildren) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProps | null>(null);
   const router = useRouter();
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(1);
+    const loadToken = async () => {
+      try {
+        setLoading(true);
+        const decodedToken = (await currentUser()) as DecodedTokenProps;
+        setUser(decodedToken.user);
+        router.replace("/(main)/home");
+      } catch (error) {
+        await updateToken(null);
+
+        router.replace("/");
+      } finally {
+        setLoading(false);
+      }
+    };
     loadToken();
   }, []);
-  const loadToken = async () => {
-    try {
-      const user = await currentUser();
-
-      setTimeout(() => {
-        router.push("/(main)/home");
-      }, 1500);
-    } catch (error) {
-      console.log(error);
-
-      setTimeout(() => {
-        router.push("/(auth)/welcome");
-      }, 1500);
-    }
-  };
 
   const signIn = async (email: string, password: string) => {
     const response = await login(email, password);
@@ -61,18 +65,16 @@ export const AuthProvider = (props: PropsWithChildren) => {
   const updateToken = async (token: string | null) => {
     if (token) {
       setToken(token);
-      await AsyncStorage.setItem("token", token);
-      const decodedValue = jwtDecode<DecodedTokenProps>(token);
-      setUser(decodedValue.user);
+      await SecureStore.setItemAsync("token", token);
     } else {
       setToken(null);
       setUser(null);
-      await AsyncStorage.removeItem("token");
+      await SecureStore.deleteItemAsync("token");
     }
   };
   return (
     <AuthContext.Provider
-      value={{ token, user, signIn, signOut, signUp, updateToken }}
+      value={{ token, user, signIn, signOut, signUp, updateToken, isLoading }}
     >
       {props.children}
     </AuthContext.Provider>

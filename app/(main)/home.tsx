@@ -4,6 +4,7 @@ import ScreenWrapper from "@/components/screen-wrapper";
 import Typo from "@/components/typo";
 import { useAuth } from "@/contexts/auth-context";
 import { colors } from "@/constants/theme";
+import Button from "@/components/button";
 
 export default function Home() {
   const { signOut } = useAuth();
@@ -12,6 +13,9 @@ export default function Home() {
     <ScreenWrapper>
       <View>
         <Typo color={colors.white}>Home page</Typo>
+        <Button onPress={signOut}>
+          <Typo> Signout</Typo>
+        </Button>
       </View>
     </ScreenWrapper>
   );

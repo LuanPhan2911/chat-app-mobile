@@ -35,7 +35,7 @@ export const register = async (
 
 export const currentUser = async () => {
   try {
-    return await api.get("/auth/current-user");
+    return (await api.get("/auth/current-user")).data;
   } catch (error: any) {
     throw new Error(error?.response?.data?.message || "Unknown error");
   }

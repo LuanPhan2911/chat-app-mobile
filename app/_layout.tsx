@@ -1,15 +1,17 @@
-import { AuthProvider } from "@/contexts/auth-context";
+import { AuthProvider, useAuth } from "@/contexts/auth-context";
 import { Stack } from "expo-router";
 import React from "react";
-import { StyleSheet } from "react-native";
+import SplashScreenController from "./splash";
 
-const RootLayout = () => {
+const Root = () => {
   return (
     <AuthProvider>
-      <Stack screenOptions={{ headerShown: false }} />
+      <SplashScreenController />
+      <RootNavigator />
     </AuthProvider>
   );
 };
-
-export default RootLayout;
-const styles = StyleSheet.create({});
+const RootNavigator = () => {
+  return <Stack screenOptions={{ headerShown: false }}></Stack>;
+};
+export default Root;

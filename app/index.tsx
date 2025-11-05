@@ -1,43 +1,66 @@
+import Button from "@/components/button";
+import ScreenWrapper from "@/components/screen-wrapper";
+import Typo from "@/components/typo";
 import { colors } from "@/constants/theme";
+import { verticalScale } from "@/utils/styling";
 import { useRouter } from "expo-router";
-import React, { useEffect } from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
-import Animated, { FadeInDown } from "react-native-reanimated";
-const logo = require("../assets/images/splashImage.png");
-const SplashScreen = () => {
+
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import Animated, { FadeIn } from "react-native-reanimated";
+
+export default function Welcome() {
   const router = useRouter();
-  useEffect(() => {
-    setTimeout(() => {
-      router.replace("/(auth)/welcome");
-    }, 1500);
-  }, []);
-
   return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle={"light-content"}
-        backgroundColor={colors.neutral900}
-      />
-      <Animated.Image
-        source={logo}
-        entering={FadeInDown.duration(700).springify()}
-        style={styles.logo}
-      />
-    </View>
-  );
-};
+    <ScreenWrapper showPattern>
+      <View style={styles.container}>
+        <Typo
+          size={48}
+          color={colors.white}
+          fontWeight={"bold"}
+          style={{ textAlign: "center" }}
+        >
+          Bubby
+        </Typo>
 
-export default SplashScreen;
+        <Animated.Image
+          source={require("@/assets/images/welcome.png")}
+          style={styles.welcomeImage}
+          entering={FadeIn.duration(700).springify()}
+          resizeMode={"contain"}
+        />
+        <Typo
+          size={36}
+          color={colors.white}
+          fontWeight={800}
+          style={{ textAlign: "center" }}
+        >
+          Stay connected{"\n"}
+          with your friends{"\n"}
+          and family
+        </Typo>
+
+        <Button
+          style={{ backgroundColor: colors.white }}
+          onPress={() => router.push("/(auth)/login")}
+        >
+          <Typo size={24} fontWeight="600">
+            Get started
+          </Typo>
+        </Button>
+      </View>
+    </ScreenWrapper>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.neutral900,
+    justifyContent: "space-around",
+    padding: 20,
   },
-  logo: {
-    height: "23%",
-    aspectRatio: 1,
+  welcomeImage: {
+    height: verticalScale(300),
+    alignSelf: "center",
   },
 });

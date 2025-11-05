@@ -5,7 +5,6 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import React, { useState } from "react";
@@ -13,7 +12,7 @@ import ScreenWrapper from "@/components/screen-wrapper";
 import BackButton from "@/components/back-button";
 import Typo from "@/components/typo";
 import { colors, radius, spacingX, spacingY } from "@/constants/theme";
-import { AtSign, Lock, Type, User } from "lucide-react-native";
+import { Lock, User } from "lucide-react-native";
 import Input from "@/components/input";
 import Button from "@/components/button";
 import LineSeparator from "@/components/line-seperator";
@@ -74,6 +73,7 @@ const Login = () => {
                   placeholder="Enter your email"
                   icon={<User />}
                   onChangeText={setEmail}
+                  value={email}
                 />
 
                 <Input
@@ -81,6 +81,7 @@ const Login = () => {
                   secureTextEntry
                   icon={<Lock />}
                   onChangeText={setPassword}
+                  value={password}
                 />
               </View>
               <Button onPress={handleSubmit} loading={isLoading}>

@@ -8,7 +8,7 @@ export default function Typo({
   children,
   color = colors.text,
   fontWeight = "400",
-  size = 16,
+  size = 20,
   style,
   textProps,
 }: TypoProps) {
