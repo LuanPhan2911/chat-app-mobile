@@ -42,7 +42,9 @@ export default function Welcome() {
 
         <Button
           style={{ backgroundColor: colors.white }}
-          onPress={() => router.push("/(auth)/login")}
+          onPress={() => {
+            router.push("/(auth)/login");
+          }}
         >
           <Typo size={24} fontWeight="600">
             Get started

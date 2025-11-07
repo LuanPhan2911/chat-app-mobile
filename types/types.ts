@@ -54,6 +54,7 @@ export type AuthContextProps = {
   signUp: (email: string, password: string, name: string) => Promise<void>;
   signOut: () => Promise<void>;
   updateToken: (token: string) => Promise<void>;
+  editUser: (name: string) => Promise<void>;
 };
 
 export type ScreenWrapperProps = {

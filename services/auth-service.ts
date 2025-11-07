@@ -33,6 +33,20 @@ export const register = async (
   }
 };
 
+export const editCurrentUser = async (
+  name: string
+): Promise<{ token: string }> => {
+  try {
+    const res = await api.patch("/auth/edit-user", {
+      name,
+    });
+    const token = res.data.token as string;
+    return { token };
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message || "Unknown error");
+  }
+};
+
 export const currentUser = async () => {
   try {
     return (await api.get("/auth/current-user")).data;

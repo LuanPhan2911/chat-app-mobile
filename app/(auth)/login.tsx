@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: colors.neutral200,
     borderTopLeftRadius: radius._30,
     borderTopRightRadius: radius._30,
     padding: 20,

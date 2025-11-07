@@ -1,4 +1,9 @@
-import { currentUser, login, register } from "@/services/auth-service";
+import {
+  currentUser,
+  editCurrentUser,
+  login,
+  register,
+} from "@/services/auth-service";
 import { AuthContextProps, DecodedTokenProps, UserProps } from "@/types/types";
 import {
   createContext,
@@ -9,6 +14,7 @@ import {
 } from "react";
 import { useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
+import { createSocket, disconnectSocket } from "@/sockets/socket";
 
 const AuthContext = createContext<AuthContextProps>({
   token: null,
@@ -18,6 +24,7 @@ const AuthContext = createContext<AuthContextProps>({
   signOut: async () => {},
   signUp: async (email: string, password: string, name: string) => {},
   updateToken: async (token: string) => {},
+  editUser: async (name: string) => {},
 });
 
 const delay = (time: number) => {
@@ -34,8 +41,9 @@ export const AuthProvider = (props: PropsWithChildren) => {
     const loadToken = async () => {
       try {
         setLoading(true);
-        const decodedToken = (await currentUser()) as DecodedTokenProps;
-        setUser(decodedToken.user);
+        const data = (await currentUser()) as UserProps;
+        await createSocket();
+        setUser(data);
         router.replace("/(main)/home");
       } catch (error) {
         await updateToken(null);
@@ -46,20 +54,23 @@ export const AuthProvider = (props: PropsWithChildren) => {
       }
     };
     loadToken();
-  }, []);
+  }, [token]);
 
   const signIn = async (email: string, password: string) => {
     const response = await login(email, password);
     await updateToken(response.token);
+    await createSocket();
     router.replace("/(main)/home");
   };
   const signUp = async (email: string, password: string, name: string) => {
     const response = await register(email, password, name);
     await updateToken(response.token);
+    await createSocket();
     router.replace("/(main)/home");
   };
   const signOut = async () => {
     await updateToken(null);
+    disconnectSocket();
     router.replace("/(auth)/login");
   };
   const updateToken = async (token: string | null) => {
@@ -72,9 +83,22 @@ export const AuthProvider = (props: PropsWithChildren) => {
       await SecureStore.deleteItemAsync("token");
     }
   };
+  const editUser = async (name: string) => {
+    const response = await editCurrentUser(name);
+    await updateToken(response.token);
+  };
   return (
     <AuthContext.Provider
-      value={{ token, user, signIn, signOut, signUp, updateToken, isLoading }}
+      value={{
+        token,
+        user,
+        signIn,
+        signOut,
+        signUp,
+        updateToken,
+        editUser,
+        isLoading,
+      }}
     >
       {props.children}
     </AuthContext.Provider>
